@@ -15,6 +15,6 @@ export class RoomUsers {
         name: 'UserId',
         primary: true
     })
-    UserId: string;
+    UserId: number;
 
 }

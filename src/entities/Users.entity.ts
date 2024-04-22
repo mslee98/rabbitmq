@@ -1,21 +1,34 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ schema: 'rabbit', name: 'users' })
 export class Users {
 
-    @PrimaryColumn({
+    @PrimaryGeneratedColumn({
         name: 'id',
-        length: 13
+        type: 'int'
     })
-    id: string;
+    id: number
 
+    @IsEmail()
     @Column({
         type: 'varchar',
-        name: 'name',
+        name: 'email',
         length: 30
     })
-    name: string;
+    email: string;
 
+    @IsString()
+    @IsNotEmpty()
+    @Column({
+        type: 'varchar',
+        name: 'nickname',
+        length: 30
+    })
+    nickname: string;
+
+    @IsString()
+    @IsNotEmpty()
     @Column({
         type: 'varchar',
         name: 'password',

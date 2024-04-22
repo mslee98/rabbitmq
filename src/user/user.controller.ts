@@ -1,5 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
+import { NotloggedInGuard } from 'src/auth/not-logged-in.guard';
+import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+import { User } from '../common/decorators/user.decorator';
 
 @Controller('user')
 export class UserController {
@@ -12,9 +15,22 @@ export class UserController {
         private readonly userService: UserService
     ) {}
 
+    @UseGuards(new NotloggedInGuard())
     @Post('join')
-    async createUser(@Body() data: {id: string, name: string, password: string}) {
-        this.userService.createUser(data.id, data.name, data.password);
+    async createUser(@Body() data: {email: string, nickname: string, password: string}) {
+
+        console.log("1.요청 Body 데이터 : ",data)
+
+        await this.userService.createUser(data.email, data.nickname, data.password);
     }
+
+    @Post('login')
+    @UseGuards(new LocalAuthGuard())
+    login(@User() user) {
+        console.log('Login 요청 : ',user)
+        return user;
+    }
+
+
 
 }
