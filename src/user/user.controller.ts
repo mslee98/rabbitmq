@@ -3,6 +3,8 @@ import { UserService } from './user.service';
 import { NotloggedInGuard } from 'src/auth/not-logged-in.guard';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { User } from '../common/decorators/user.decorator';
+import { EventsGateway } from 'src/events/events.gateway';
+import { onlineMap } from 'src/events/onlineMap';
 
 @Controller('user')
 export class UserController {
@@ -12,7 +14,8 @@ export class UserController {
         /**
          * 클래스 인스턴스를 만들 때 생성자를 통해 외부에서 의존성을 주입받음
          */
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly eventsGateway: EventsGateway
     ) {}
 
     @UseGuards(new NotloggedInGuard())
@@ -28,9 +31,17 @@ export class UserController {
     @UseGuards(new LocalAuthGuard())
     login(@User() user) {
         console.log('Login 요청 : ',user)
+
+
+        if(user) {
+            console.log("??")
+            // this.eventsGateway.server.to('ws-test-test').emit('login',user)
+            // this.eventsGateway.server.to().emit('login','ssss')
+        }
         return user;
     }
 
 
 
 }
+ 

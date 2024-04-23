@@ -9,6 +9,7 @@ export class RmqController {
     async createQueue(@Body() data: { room_name: string }) {
         await this.rmqService.createQueue(data.room_name);
         return `Queue ${data.room_name} created successfully`;
+
     }
 
 }

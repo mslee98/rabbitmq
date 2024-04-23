@@ -10,6 +10,8 @@ import { Users } from './entities/Users.entity';
 import { Rooms } from './entities/Rooms.entity';
 import { RoomUsers } from './entities/RoomUsers.entity';
 import { ConfigModule } from '@nestjs/config';
+import { EventsModule } from './events/events.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -32,7 +34,9 @@ import { ConfigModule } from '@nestjs/config';
       logging: true, // log
       synchronize: true
     }),
-    UserModule
+    UserModule,
+    EventsModule,
+    ChatModule
   ],
   controllers: [AppController],
   providers: [AppService],
